@@ -28,6 +28,9 @@ var app = builder.Build();
 // Configure the application to use the MCP server
 app.MapMcp();
 
+// Add a test endpoint to verify the server is running
+app.MapGet("/", () => "HR MCP Server is running!");
+
 // Run the application
 // This will start the MCP server and listen for incoming requests.
 app.Run();

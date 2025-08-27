@@ -1,7 +1,7 @@
 # PowerShell script to test MCP server
 
 param(
-    [string]$Url = "https://mcplan.azurewebsites.net"  # UPDATE with your actual URL
+    [string]$Url = "https://mcplan-app.azurewebsites.net"
 )
 
 Write-Host "Testing MCP Server at $Url" -ForegroundColor Green

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hr-mcp-azure": {
+      "url": "https://mcplan-app.azurewebsites.net/mcp",
+      "transport": "http"
+    }
+  }
+}

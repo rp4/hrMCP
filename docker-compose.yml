@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  hr-mcp:
+    build: .
+    ports:
+      - "47002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ./Data:/app/Data
