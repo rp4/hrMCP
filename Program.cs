@@ -28,8 +28,73 @@ var app = builder.Build();
 // Configure the application to use the MCP server
 app.MapMcp();
 
-// Add a test endpoint to verify the server is running
-app.MapGet("/", () => "HR MCP Server is running!");
+// Add a simple health check endpoint
+app.MapGet("/health", () => Results.Ok(new { 
+    status = "healthy", 
+    service = "HR MCP Server", 
+    timestamp = DateTime.UtcNow 
+}));
+
+// Add a status page to verify the server is running
+app.MapGet("/", () => Results.Content(
+    """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>HR MCP Server</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+            .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; }
+            h1 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+            .status { background: #4CAF50; color: white; padding: 10px 20px; border-radius: 4px; display: inline-block; margin: 20px 0; }
+            .tools { background: #f9f9f9; padding: 20px; border-radius: 4px; margin-top: 20px; }
+            .tool { margin: 10px 0; padding: 10px; background: white; border-left: 3px solid #2196F3; }
+            code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+            .endpoint { margin-top: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🤖 HR MCP Server</h1>
+            <div class="status">✅ Server is running!</div>
+            
+            <p>This is a Model Context Protocol (MCP) server for managing HR candidate data.</p>
+            
+            <div class="endpoint">
+                <strong>MCP Endpoint:</strong> <code>POST https://mcplan-app.azurewebsites.net/mcp</code>
+            </div>
+            
+            <div class="tools">
+                <h2>Available MCP Tools:</h2>
+                <div class="tool">
+                    <strong>ListCandidates</strong> - Returns all candidates in the system
+                </div>
+                <div class="tool">
+                    <strong>AddCandidate</strong> - Adds a new candidate (requires: firstName, lastName, email, currentRole)
+                </div>
+                <div class="tool">
+                    <strong>UpdateCandidate</strong> - Updates an existing candidate by email
+                </div>
+                <div class="tool">
+                    <strong>RemoveCandidate</strong> - Removes a candidate by email
+                </div>
+                <div class="tool">
+                    <strong>SearchCandidates</strong> - Searches candidates by name, email, skills, or role
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 0.9em;">
+                <p>To use this MCP server:</p>
+                <ul>
+                    <li>Configure your MCP client with the endpoint URL</li>
+                    <li>Use transport type: <code>http</code></li>
+                    <li>All data modifications are temporary (in-memory only)</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    </html>
+    """, "text/html"));
 
 // Run the application
 // This will start the MCP server and listen for incoming requests.
