@@ -14,12 +14,12 @@ try {
 Write-Host "`nBuilding application..." -ForegroundColor Cyan
 dotnet publish -c Release -o ./publish
 
-Write-Host "Deploying to MCPlan..." -ForegroundColor Cyan
+Write-Host "Deploying to MCPlan-app..." -ForegroundColor Cyan
 az webapp deploy `
     --resource-group "MCPs" `
-    --name "MCPlan" `
+    --name "MCPlan-app" `
     --src-path "./publish" `
     --type "zip"
 
 Write-Host "`n✅ Deployment complete!" -ForegroundColor Green
-Write-Host "Your app is at: https://mcplan.azurewebsites.net" -ForegroundColor Yellow
+Write-Host "Your app is at: https://mcplan-app.azurewebsites.net" -ForegroundColor Yellow
